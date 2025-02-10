@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent"
+	android:orientation="vertical"
+	android:padding="18dp">
+
+	<LinearLayout
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:orientation="vertical"
+		android:background="@drawable/common_bsd_background">
+
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:orientation="vertical">
+
+			<TextView
+				android:layout_height="match_parent"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="match_parent"
+				android:layout_weight="1.0"
+				android:paddingTop="28dp"
+				android:paddingBottom="15dp"
+				android:text="@string/exit_message"
+				android:paddingRight="10dp"
+				android:paddingLeft="10dp"
+				android:textStyle="bold"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:orientation="horizontal"
+			android:gravity="right|center_vertical"
+			android:paddingBottom="12dp"
+			android:paddingRight="10dp">
+
+			<Button
+				android:textColor="@color/textColor"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:text="@string/cancel_text"
+				android:id="@+id/I_dont_want"
+				style="?android:attr/buttonBarButtonStyle"/>
+
+			<Button
+				style="?android:attr/buttonBarButtonStyle"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:text="@string/ok_text"
+                android:textColor="#FFDC0000"
+				android:id="@+id/I_do_want"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout>
+

@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'cu.lt.joe.calculator'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "cu.lt.joe.calculator"
+        minSdk 19
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        android.defaultConfig.vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi 34
+        renderscriptSupportModeEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
+    dataBinding.enabled = true
+    viewBinding.enabled = true
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.github.jr20xx:JCalc:v1.0.2-SNAPSHOT'
+}
