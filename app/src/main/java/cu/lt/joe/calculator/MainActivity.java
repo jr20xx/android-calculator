@@ -277,43 +277,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onLongClick(View p1)
+    public boolean onLongClick(View v)
     {
-        switch (p1.getId())
+        if (v.equals(binding.buttonsLayout.delete))
         {
-            case R.id.delete:
-            {
-                binding.buttonsLayout.screen.setText("");
-                return true;
-            }
-            case R.id.screen:
-            {
-                if (!binding.buttonsLayout.screen.getText().toString().isEmpty())
-                {
-                    final BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
-                    View edits = getLayoutInflater().inflate(R.layout.screen_menu, null);
-                    dialog.setContentView(edits);
-                    edits.findViewById(R.id.copy_lay).setOnClickListener(view ->
-                    {
-                        copyToClipboard(null, binding.buttonsLayout.screen.getText().toString());
-                        dialog.dismiss();
-                        Snackbar.make(binding.buttonsLayout.screen, R.string.copied, Snackbar.LENGTH_SHORT).show();
-                    });
-                    edits.findViewById(R.id.cut_lay).setOnClickListener(view ->
-                    {
-                        solved = false;
-                        copyToClipboard(null, binding.buttonsLayout.screen.getText().toString());
-                        dialog.dismiss();
-                        binding.buttonsLayout.screen.setText("");
-                        Snackbar.make(binding.buttonsLayout.screen, R.string.cutText, Snackbar.LENGTH_SHORT).show();
-                    });
-                    dialog.show();
-                }
-                return true;
-            }
-            default:
-                return false;
+            binding.buttonsLayout.screen.setText("");
+            return true;
         }
+        else if (v.equals(binding.buttonsLayout.screen))
+        {
+            if (!binding.buttonsLayout.screen.getText().toString().isEmpty())
+            {
+                final BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
+                View edits = getLayoutInflater().inflate(R.layout.screen_menu, null);
+                dialog.setContentView(edits);
+                edits.findViewById(R.id.copy_lay).setOnClickListener(view ->
+                {
+                    copyToClipboard(null, binding.buttonsLayout.screen.getText().toString());
+                    dialog.dismiss();
+                    Snackbar.make(binding.buttonsLayout.screen, R.string.copied, Snackbar.LENGTH_SHORT).show();
+                });
+                edits.findViewById(R.id.cut_lay).setOnClickListener(view ->
+                {
+                    solved = false;
+                    copyToClipboard(null, binding.buttonsLayout.screen.getText().toString());
+                    dialog.dismiss();
+                    binding.buttonsLayout.screen.setText("");
+                    Snackbar.make(binding.buttonsLayout.screen, R.string.cutText, Snackbar.LENGTH_SHORT).show();
+                });
+                dialog.show();
+            }
+            return true;
+        }
+        return false;
     }
 
     private boolean copyToClipboard(@Nullable String title, @NonNull String description)

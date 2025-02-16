@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="handlerActivity"
             type="cu.lt.joe.calculator.MainActivity" />
@@ -57,6 +58,7 @@
                 android:cursorVisible="false"
                 android:gravity="bottom|right"
                 android:inputType="number"
+                android:onLongClick="@{handlerActivity::onLongClick}"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:singleLine="true"
@@ -266,6 +268,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/back"
                     android:onClick="@{handlerActivity::onClick}"
+                    android:onLongClick="@{handlerActivity::onLongClick}"
                     app:srcCompat="@drawable/ic_backspace" />
 
                 <Button
