@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -14,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,12 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.databinding.DataBindingUtil;
+import androidx.preference.PreferenceManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import cu.lt.joe.calculator.adapters.OperationsHistoryAdapter;
+import cu.lt.joe.calculator.databinding.MainLayoutBinding;
 import cu.lt.joe.calculator.db.HistoryDatabaseHandler;
 import cu.lt.joe.calculator.models.HistoryItem;
 import cu.lt.joe.jcalc.JCalc;
@@ -38,11 +37,9 @@ import cu.lt.joe.jcalc.exceptions.UnbalancedParenthesesException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener
 {
-    private EditText screen;
+    private MainLayoutBinding binding;
     private boolean solved;
     private HistoryDatabaseHandler operations_records_handler;
-    private ListView history_lv;
-    private DrawerLayout history_drawer;
     private SharedPreferences sharp;
     private SharedPreferences.Editor editor;
 
@@ -51,25 +48,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        sharp = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        sharp = PreferenceManager.getDefaultSharedPreferences(this);
         editor = sharp.edit();
         AppCompatDelegate.setDefaultNightMode(sharp.getBoolean("UI_MODE_DARK", false) ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
-        setContentView(R.layout.main);
-        history_drawer = findViewById(R.id.history_drawer);
-        history_lv = findViewById(R.id.history_lv);
-        history_lv.setDividerHeight(0);
-        screen = findViewById(R.id.screen);
-        screen.setShowSoftInputOnFocus(false);
-        screen.setCursorVisible(false);
-        screen.setText(getIntent().getStringExtra("screen_content"));
+        binding = DataBindingUtil.setContentView(this, R.layout.main_layout);
+        binding.historyLv.setDividerHeight(0);
+        binding.buttonsLayout.screen.setShowSoftInputOnFocus(false);
+        binding.buttonsLayout.screen.setCursorVisible(false);
         solved = getIntent().getBooleanExtra("solved", false);
         operations_records_handler = new HistoryDatabaseHandler(this, () ->
         {
-            history_lv.setAdapter(new OperationsHistoryAdapter(MainActivity.this, operations_records_handler.getOperationsHistory()));
+            binding.historyLv.setAdapter(new OperationsHistoryAdapter(MainActivity.this, operations_records_handler.getOperationsHistory()));
             solved = true;
         });
-        history_lv.setAdapter(new OperationsHistoryAdapter(MainActivity.this, operations_records_handler.getOperationsHistory()));
-        screen.setCustomSelectionActionModeCallback(new ActionMode.Callback()
+        binding.historyLv.setAdapter(new OperationsHistoryAdapter(MainActivity.this, operations_records_handler.getOperationsHistory()));
+        binding.buttonsLayout.screen.setCustomSelectionActionModeCallback(new ActionMode.Callback()
         {
             @Override
             public boolean onCreateActionMode(ActionMode p1, Menu p2)
@@ -95,209 +88,191 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        screen.setOnKeyListener((v, keyCode, event) ->
+        binding.buttonsLayout.screen.setOnKeyListener((v, keyCode, event) ->
         {
             if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
                 return false;
             return true;
         });
 
-        history_lv.setOnItemClickListener((p1, p2, p3, p4) ->
+        binding.historyLv.setOnItemClickListener((p1, p2, p3, p4) ->
         {
-            history_drawer.closeDrawer(GravityCompat.END);
+            binding.historyDrawer.closeDrawer(GravityCompat.END);
             solved = false;
-            screen.setText(((HistoryItem) p1.getItemAtPosition(p3)).getResult());
+            binding.buttonsLayout.screen.setText(((HistoryItem) p1.getItemAtPosition(p3)).getResult());
         });
-        history_lv.setOnItemLongClickListener((p1, p2, p3, p4) ->
+        binding.historyLv.setOnItemLongClickListener((p1, p2, p3, p4) ->
         {
             showHistoryItemPopupMenu((HistoryItem) p1.getItemAtPosition(p3), p2);
             return true;
         });
-        ((androidx.appcompat.widget.AppCompatImageButton) findViewById(R.id.toggle_dayNight_mode)).setImageResource(sharp.getBoolean("UI_MODE_DARK", false) ? R.drawable.ic_enable_dark_mode : R.drawable.ic_enable_light_mode);
-        findViewById(R.id.delete).setOnLongClickListener(this);
-        screen.setOnLongClickListener(this);
+        binding.buttonsLayout.toggleDayNightMode.setImageResource(sharp.getBoolean("UI_MODE_DARK", false) ? R.drawable.ic_enable_dark_mode : R.drawable.ic_enable_light_mode);
+        binding.buttonsLayout.delete.setOnLongClickListener(this);
+        binding.buttonsLayout.screen.setOnLongClickListener(this);
+
+        binding.buttonsLayout.setHandlerActivity(this);
+    }
+
+    public void onNumberClick(View button)
+    {
+        String screenContent = binding.buttonsLayout.screen.getText().toString();
+        String number = ((Button) button).getText().toString();
+        if (!screenContent.isEmpty())
+        {
+            char lastChar = screenContent.charAt(screenContent.length() - 1);
+            if (solved)
+            {
+                solved = false;
+                if (lastChar == '(' || lastChar == '.')
+                    binding.buttonsLayout.screen.setText(String.format("%s%s", screenContent, number));
+                else
+                    binding.buttonsLayout.screen.setText(number);
+            }
+            else if (lastChar == ')')
+                binding.buttonsLayout.screen.setText(String.format("%s×%s", screenContent, number));
+            else
+                binding.buttonsLayout.screen.setText(String.format("%s%s", screenContent, number));
+        }
+        else
+            binding.buttonsLayout.screen.setText(number);
+        binding.buttonsLayout.screen.setSelection(binding.buttonsLayout.screen.getText().length());
+    }
+
+    public void onOperatorClick(View button)
+    {
+        String screenContent = binding.buttonsLayout.screen.getText().toString();
+        String operator = ((Button) button).getText().toString();
+        solved = false;
+        if (!screenContent.isEmpty())
+        {
+            char lastChar = screenContent.charAt(screenContent.length() - 1);
+            if (isNumber(lastChar + "") || lastChar == ')')
+                screenContent += operator;
+            else if (lastChar == '.')
+                screenContent += "0" + operator;
+            else if (lastChar == '(' && operator.equals("-"))
+                screenContent += operator;
+            else if (screenContent.endsWith("(-"))
+                screenContent = operator.equals("+") ? screenContent.substring(0, screenContent.length() - 1) : screenContent;
+            else if (isOperator(lastChar + ""))
+                screenContent = screenContent.substring(0, screenContent.length() - 1) + operator;
+            binding.buttonsLayout.screen.setText(screenContent);
+            binding.buttonsLayout.screen.setSelection(binding.buttonsLayout.screen.getText().length());
+        }
     }
 
     @Override
-    public void onClick(View p1)
+    public void onClick(View view)
     {
-        String text = screen.getText().toString();
+        String text = binding.buttonsLayout.screen.getText().toString();
         char lastChar = !text.isEmpty() ? text.charAt(text.length() - 1) : ' ';
-        switch (p1.getId())
+        if (view.equals(binding.buttonsLayout.comma))
         {
-            case R.id.zero:
-            case R.id.one:
-            case R.id.two:
-            case R.id.three:
-            case R.id.four:
-            case R.id.five:
-            case R.id.six:
-            case R.id.seven:
-            case R.id.eight:
-            case R.id.nine:
+            if (!text.isEmpty())
             {
-                String number = ((Button) p1).getText().toString();
-                if (!text.isEmpty())
+                if (isNumber(lastChar + ""))
                 {
-                    if (solved)
-                    {
-                        solved = false;
-                        if (lastChar == '(' || lastChar == '.')
-                            screen.setText(String.format("%s%s", text, number));
-                        else
-                            screen.setText(number);
-                    }
-                    else if (lastChar == ')')
-                        screen.setText(String.format("%s×%s", text, number));
-                    else
-                        screen.setText(String.format("%s%s", text, number));
+                    String arr[] = text.replace("(", "( ").replace("+", " + ").replace("-", " - ").replace("×", " × ").replace("÷", " ÷ ").replace("%", " % ").replace(")", " )").replace("n", "-").trim().split(" ");
+                    if (!arr[arr.length - 1].contains("."))
+                        binding.buttonsLayout.screen.setText(String.format("%s.", binding.buttonsLayout.screen.getText()));
                 }
-                else
-                    screen.setText(number);
-                screen.setSelection(screen.getText().length());
-                break;
+                else if (isOperator(lastChar + "") || lastChar == '(')
+                    binding.buttonsLayout.screen.setText(String.format("%s0.", binding.buttonsLayout.screen.getText()));
+                binding.buttonsLayout.screen.setSelection(binding.buttonsLayout.screen.getText().length());
             }
-            case R.id.add:
-            case R.id.subtract:
-            case R.id.multiply:
-            case R.id.divide:
-            case R.id.exponentiation:
+        }
+        else if (view.equals(binding.buttonsLayout.delete))
+        {
+            if (solved)
             {
-                String operator = ((Button) p1).getText().toString();
                 solved = false;
-                if (!text.isEmpty())
-                {
-                    if (isNumber(lastChar + "") || lastChar == ')')
-                        text += operator;
-                    else if (lastChar == '.')
-                        text += "0" + operator;
-                    else if (lastChar == '(' && operator.equals("-"))
-                        text += operator;
-                    else if (text.endsWith("(-"))
-                        text = operator.equals("+") ? text.substring(0, text.length() - 1) : text;
-                    else if (isOperator(lastChar + ""))
-                        text = text.substring(0, text.length() - 1) + operator;
-                    screen.setText(text);
-                    screen.setSelection(screen.getText().length());
-                }
-                break;
+                binding.buttonsLayout.screen.setText("");
             }
-            case R.id.comma:
+            else if (!text.isEmpty())
             {
-                if (!text.isEmpty())
-                {
-                    if (isNumber(lastChar + ""))
-                    {
-                        String arr[] = text.replace("(", "( ").replace("+", " + ").replace("-", " - ").replace("×", " × ").replace("÷", " ÷ ").replace("%", " % ").replace(")", " )").replace("n", "-").trim().split(" ");
-                        if (!arr[arr.length - 1].contains("."))
-                            screen.setText(String.format("%s.", screen.getText()));
-                    }
-                    else if (isOperator(lastChar + "") || lastChar == '(')
-                        screen.setText(String.format("%s0.", screen.getText()));
-                    screen.setSelection(screen.getText().length());
-                }
-                break;
+                text = text.substring(0, text.length() - 1);
+                binding.buttonsLayout.screen.setText(text);
+                binding.buttonsLayout.screen.setSelection(text.length());
             }
-            case R.id.delete:
+        }
+        else if (view.equals(binding.buttonsLayout.openParentheses))
+        {
+            if (!text.isEmpty() && (isNumber(lastChar + "") || lastChar == ')'))
             {
-                if (solved)
-                {
-                    solved = false;
-                    screen.setText("");
-                }
-                else if (!text.isEmpty())
-                {
-                    text = text.substring(0, text.length() - 1);
-                    screen.setText(text);
-                    screen.setSelection(text.length());
-                }
-                break;
+                binding.buttonsLayout.screen.setText(String.format("%s×(", text));
+                binding.buttonsLayout.screen.setSelection(binding.buttonsLayout.screen.getText().length());
             }
-            case R.id.openParentheses:
+            else
             {
-                if (!text.isEmpty() && (isNumber(lastChar + "") || lastChar == ')'))
-                {
-                    screen.setText(String.format("%s×(", text));
-                    screen.setSelection(screen.getText().length());
-                }
-                else
-                {
-                    screen.setText(String.format("%s(", text));
-                    screen.setSelection(screen.getText().length());
-                }
-                break;
+                binding.buttonsLayout.screen.setText(String.format("%s(", text));
+                binding.buttonsLayout.screen.setSelection(binding.buttonsLayout.screen.getText().length());
             }
-            case R.id.closeParentheses:
+        }
+        else if (view.equals(binding.buttonsLayout.closeParentheses))
+        {
+            if (text.contains("("))
             {
-                if (text.contains("("))
-                {
-                    screen.setText(text += lastChar == '(' ? "1)" : ")");
-                    screen.setSelection(text.length());
-                }
-                break;
+                binding.buttonsLayout.screen.setText(text += lastChar == '(' ? "1)" : ")");
+                binding.buttonsLayout.screen.setSelection(text.length());
             }
-            case R.id.equal:
+        }
+        else if (view.equals(binding.buttonsLayout.equal))
+        {
+            if (!text.isEmpty())
             {
-                if (!text.isEmpty())
+                try
                 {
-                    try
+                    if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
                     {
-                        if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
-                        {
-                            String result = JCalc.performMathOperation(text);
-                            screen.setText(result);
-                            screen.setSelection(0);
-                            operations_records_handler.saveOperation(text, result);
-                        }
-                    }
-                    catch (NotNumericResultException e)
-                    {
-                        screen.setText("");
-                        Snackbar.make(screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "NULO")).show();
-                    }
-                    catch (InfiniteResultException e)
-                    {
-                        screen.setText("");
-                        Snackbar.make(screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "INF")).show();
-                    }
-                    catch (UnbalancedParenthesesException x)
-                    {
-                        screen.setText("");
-                        Snackbar.make(screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "PIE")).show();
-                    }
-                    catch (Exception e)
-                    {
-                        Throwable t = new Throwable(e);
-                        StringWriter result = new StringWriter();
-                        PrintWriter printer = new PrintWriter(result);
-                        while (t != null)
-                        {
-                            t.printStackTrace(printer);
-                            t = t.getCause();
-                        }
-                        final String exception = result.toString();
-                        Snackbar.make(screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, exception)).show();
+                        String result = JCalc.performMathOperation(text);
+                        binding.buttonsLayout.screen.setText(result);
+                        binding.buttonsLayout.screen.setSelection(0);
+                        operations_records_handler.saveOperation(text, result);
                     }
                 }
-                break;
+                catch (NotNumericResultException e)
+                {
+                    binding.buttonsLayout.screen.setText("");
+                    Snackbar.make(binding.buttonsLayout.screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "NULO")).show();
+                }
+                catch (InfiniteResultException e)
+                {
+                    binding.buttonsLayout.screen.setText("");
+                    Snackbar.make(binding.buttonsLayout.screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "INF")).show();
+                }
+                catch (UnbalancedParenthesesException x)
+                {
+                    binding.buttonsLayout.screen.setText("");
+                    Snackbar.make(binding.buttonsLayout.screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "PIE")).show();
+                }
+                catch (Exception e)
+                {
+                    Throwable t = new Throwable(e);
+                    StringWriter result = new StringWriter();
+                    PrintWriter printer = new PrintWriter(result);
+                    while (t != null)
+                    {
+                        t.printStackTrace(printer);
+                        t = t.getCause();
+                    }
+                    final String exception = result.toString();
+                    Snackbar.make(binding.buttonsLayout.screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, exception)).show();
+                }
             }
-            case R.id.toggle_history_drawer:
-            {
-                history_drawer.openDrawer(GravityCompat.END);
-                break;
-            }
-            case R.id.clearHistory_button:
-            {
-                operations_records_handler.clearRecords();
-                break;
-            }
-            case R.id.toggle_dayNight_mode:
-            {
-                editor.putBoolean("UI_MODE_DARK", !(sharp.getBoolean("UI_MODE_DARK", false))).commit();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).putExtra("solved", solved).putExtra("screen_content", screen.getText().toString()));
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                break;
-            }
+        }
+        else if (view.equals(binding.buttonsLayout.toggleHistoryDrawer))
+        {
+            binding.historyDrawer.openDrawer(GravityCompat.END);
+        }
+        else if (view.equals(binding.clearHistoryButton))
+        {
+            operations_records_handler.clearRecords();
+        }
+        else if (view.equals(binding.buttonsLayout.toggleDayNightMode))
+        {
+            editor.putBoolean("UI_MODE_DARK", !(sharp.getBoolean("UI_MODE_DARK", false))).commit();
+            startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).putExtra("solved", solved).putExtra("screen_content", binding.buttonsLayout.screen.getText().toString()));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
 
@@ -308,29 +283,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.delete:
             {
-                screen.setText("");
+                binding.buttonsLayout.screen.setText("");
                 return true;
             }
             case R.id.screen:
             {
-                if (!screen.getText().toString().isEmpty())
+                if (!binding.buttonsLayout.screen.getText().toString().isEmpty())
                 {
                     final BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
                     View edits = getLayoutInflater().inflate(R.layout.screen_menu, null);
                     dialog.setContentView(edits);
                     edits.findViewById(R.id.copy_lay).setOnClickListener(view ->
                     {
-                        copyToClipboard(null, screen.getText().toString());
+                        copyToClipboard(null, binding.buttonsLayout.screen.getText().toString());
                         dialog.dismiss();
-                        Snackbar.make(screen, R.string.copied, Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(binding.buttonsLayout.screen, R.string.copied, Snackbar.LENGTH_SHORT).show();
                     });
                     edits.findViewById(R.id.cut_lay).setOnClickListener(view ->
                     {
                         solved = false;
-                        copyToClipboard(null, screen.getText().toString());
+                        copyToClipboard(null, binding.buttonsLayout.screen.getText().toString());
                         dialog.dismiss();
-                        screen.setText("");
-                        Snackbar.make(screen, R.string.cutText, Snackbar.LENGTH_SHORT).show();
+                        binding.buttonsLayout.screen.setText("");
+                        Snackbar.make(binding.buttonsLayout.screen, R.string.cutText, Snackbar.LENGTH_SHORT).show();
                     });
                     dialog.show();
                 }

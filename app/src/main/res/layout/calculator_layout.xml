@@ -1,312 +1,318 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:layout_height="match_parent"
-	android:layout_width="match_parent"
-	android:orientation="vertical"
-	android:gravity="center">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<LinearLayout
-		android:layout_margin="10dp"
-		android:background="@drawable/screen"
-		android:orientation="vertical"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:layout_weight="1.0">
+    <data>
+        <variable
+            name="handlerActivity"
+            type="cu.lt.joe.calculator.MainActivity" />
+    </data>
 
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-			<androidx.appcompat.widget.AppCompatImageButton
-				android:onClick="onClick"
-				android:id="@+id/toggle_dayNight_mode"
-				style="?android:attr/buttonBarButtonStyle"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-				android:layout_gravity="center_vertical|start"
-				android:layout_margin="5dp"
-				android:layout_alignParentStart="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1.0"
+            android:background="@drawable/screen"
+            android:orientation="vertical">
 
-			<androidx.appcompat.widget.AppCompatImageButton
-				android:onClick="onClick"
-				android:id="@+id/toggle_history_drawer"
-				style="?android:attr/buttonBarButtonStyle"
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content"
-                app:srcCompat="@drawable/ic_history"
-				android:layout_gravity="center_vertical|end"
-				android:layout_margin="5dp"
-				android:layout_alignParentEnd="true"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-		</RelativeLayout>
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/toggle_dayNight_mode"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_margin="5dp"
+                    android:onClick="@{handlerActivity::onClick}" />
 
-		<EditText
-			android:layout_height="match_parent"
-			android:textAppearance="?android:attr/textAppearanceLarge"
-			android:layout_width="match_parent"
-			android:gravity="bottom|right"
-			android:id="@+id/screen"
-			android:textStyle="bold"
-			android:textSize="32sp"
-			android:singleLine="true"
-			android:paddingRight="10dp"
-			android:paddingLeft="10dp"
-			android:cursorVisible="false"
-			android:textIsSelectable="false"
-			android:inputType="number"
-			android:background="#00000000"/>
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/toggle_history_drawer"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_margin="5dp"
+                    android:onClick="@{handlerActivity::onClick}"
+                    app:srcCompat="@drawable/ic_history" />
 
-	</LinearLayout>
+            </RelativeLayout>
 
-	<LinearLayout
-		android:layout_weight="1"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:orientation="horizontal">
+            <EditText
+                android:id="@+id/screen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00000000"
+                android:cursorVisible="false"
+                android:gravity="bottom|right"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textIsSelectable="false"
+                android:textSize="32sp"
+                android:textStyle="bold" />
 
-		<LinearLayout
-			android:layout_height="match_parent"
-			android:layout_width="wrap_content"
-			android:orientation="vertical"
-			android:layout_weight="1.0">
+        </LinearLayout>
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="("
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/operators"
-				android:textStyle="bold"
-				android:id="@+id/openParentheses"
-				android:layout_weight="1.0"
-				android:onClick="onClick"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="7"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/seven"
-				android:onClick="onClick"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="4"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/four"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/openParentheses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/operators"
+                    android:onClick="@{handlerActivity::onClick}"
+                    android:text="("
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="1"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/one"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/seven"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="7"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="0"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:id="@+id/zero"
-				android:background="@drawable/numbers"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/four"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="4"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		</LinearLayout>
+                <Button
+                    android:id="@+id/one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		<LinearLayout
-			android:layout_height="match_parent"
-			android:layout_width="wrap_content"
-			android:orientation="vertical"
-			android:layout_weight="1.0">
+                <Button
+                    android:id="@+id/zero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="0"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text=")"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textStyle="bold"
-				android:id="@+id/closeParentheses"
-				android:background="@drawable/operators"
-				android:layout_weight="1.0"
-				android:onClick="onClick"/>
+            </LinearLayout>
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="8"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/eight"
-				android:onClick="onClick"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="5"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/five"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/closeParentheses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/operators"
+                    android:onClick="@{handlerActivity::onClick}"
+                    android:text=")"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="2"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/two"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/eight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="8"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="."
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textStyle="bold"
-				android:id="@+id/comma"
-				android:background="@drawable/operators"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/five"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="5"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		</LinearLayout>
+                <Button
+                    android:id="@+id/two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="2"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		<LinearLayout
-			android:layout_height="match_parent"
-			android:layout_width="wrap_content"
-			android:orientation="vertical"
-			android:layout_weight="1.0">
+                <Button
+                    android:id="@+id/comma"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/operators"
+                    android:onClick="@{handlerActivity::onClick}"
+                    android:text="."
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="^"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textStyle="bold"
-				android:id="@+id/exponentiation"
-				android:background="@drawable/basic"
-				android:layout_weight="1.0"
-				android:onClick="onClick"/>
+            </LinearLayout>
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="9"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/nine"
-				android:onClick="onClick"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="6"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/six"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/exponentiation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/basic"
+                    android:onClick="@{handlerActivity::onOperatorClick}"
+                    android:text="^"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="3"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/numbers"
-				android:id="@+id/three"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/nine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="9"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="="
-				android:layout_weight="1"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textStyle="bold"
-				android:id="@+id/equal"
-				android:background="@drawable/equals"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/six"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="6"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		</LinearLayout>
+                <Button
+                    android:id="@+id/three"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="3"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-		<LinearLayout
-			android:layout_height="match_parent"
-			android:layout_width="wrap_content"
-			android:orientation="vertical"
-			android:layout_weight="1.0">
+                <Button
+                    android:id="@+id/equal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/equals"
+                    android:onClick="@{handlerActivity::onClick}"
+                    android:text="="
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-			<ImageButton
-				android:id="@+id/delete"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@drawable/back"
-				app:srcCompat="@drawable/ic_backspace"
-				android:onClick="onClick"
-				android:layout_weight="1"/>
+            </LinearLayout>
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="÷"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textStyle="bold"
-				android:id="@+id/divide"
-				android:background="@drawable/basic"
-				android:onClick="onClick"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="×"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textStyle="bold"
-				android:id="@+id/multiply"
-				android:background="@drawable/basic"
-				android:onClick="onClick"/>
+                <ImageButton
+                    android:id="@+id/delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/back"
+                    android:onClick="@{handlerActivity::onClick}"
+                    app:srcCompat="@drawable/ic_backspace" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="-"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textStyle="bold"
-				android:id="@+id/subtract"
-				android:background="@drawable/basic"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/divide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/basic"
+                    android:onClick="@{handlerActivity::onOperatorClick}"
+                    android:text="÷"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-			<Button
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:text="+"
-				android:layout_weight="1.0"
-				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:textStyle="bold"
-				android:id="@+id/add"
-				android:background="@drawable/basic"
-				android:onClick="onClick"/>
+                <Button
+                    android:id="@+id/multiply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/basic"
+                    android:onClick="@{handlerActivity::onOperatorClick}"
+                    android:text="×"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-		</LinearLayout>
+                <Button
+                    android:id="@+id/subtract"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/basic"
+                    android:onClick="@{handlerActivity::onOperatorClick}"
+                    android:text="-"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-	</LinearLayout>
+                <Button
+                    android:id="@+id/add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/basic"
+                    android:onClick="@{handlerActivity::onOperatorClick}"
+                    android:text="+"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
-</LinearLayout>
-
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
