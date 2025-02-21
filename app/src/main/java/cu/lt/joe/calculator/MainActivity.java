@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
                     {
-                        String result = JCalc.performMathOperation(text);
+                        String result = JCalc.performMathOperation(text, true);
                         binding.buttonsLayout.screen.setText(result);
                         binding.buttonsLayout.screen.setSelection(0);
                         operations_records_handler.saveOperation(text, result);
