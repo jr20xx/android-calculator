@@ -35,7 +35,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center_vertical|start"
                     android:layout_margin="5dp"
-                    android:onClick="@{handlerActivity::onClick}" />
+                    android:onClick="@{handlerActivity::onClick}"
+                    app:srcCompat="@drawable/ic_gui_mode" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/toggle_history_drawer"

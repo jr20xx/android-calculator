@@ -106,10 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showHistoryItemPopupMenu((HistoryItem) p1.getItemAtPosition(p3), p2);
             return true;
         });
-        binding.buttonsLayout.toggleDayNightMode.setImageResource(sharp.getBoolean("UI_MODE_DARK", false) ? R.drawable.ic_enable_dark_mode : R.drawable.ic_enable_light_mode);
         binding.buttonsLayout.delete.setOnLongClickListener(this);
         binding.buttonsLayout.screen.setOnLongClickListener(this);
-
         binding.buttonsLayout.setHandlerActivity(this);
     }
 
