@@ -1,0 +1,11 @@
+name: Build debug APK
+
+on: 
+    workflow_dispatch:
+
+jobs:
+    build:
+        name: Build debug APK
+        uses: jr20xx/apk-builder-workflow/.github/workflows/build_debug_apk.yml@main
+        with:
+            app-name: 'Android Calculator'
