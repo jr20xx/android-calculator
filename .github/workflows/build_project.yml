@@ -1,0 +1,35 @@
+name: Build project
+
+on:
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
+
+jobs:
+    build:
+        name: Build project
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check the code
+              uses: actions/checkout@v4
+
+            - name: Setup JDK
+              uses: actions/setup-java@v4
+              with:
+                distribution: 'temurin'
+                java-version: '17'
+            
+            - name: Decode the Keystore
+              run: echo ${{ secrets.KEYSTORE_BASE64 }} | base64 -di > keystore.keystore
+
+            - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v4
+
+            - name: Build the project
+              env:
+                KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+                KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+                KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+              run: ./gradlew build
