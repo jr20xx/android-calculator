@@ -1,0 +1,12 @@
+name: Build release APK
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build:
+        name: Build release APK
+        uses: jr20xx/apk-builder-workflow/.github/workflows/build_release_apk.yml@main
+        with:
+            app-name: 'Android Calculator'
+        secrets: inherit
