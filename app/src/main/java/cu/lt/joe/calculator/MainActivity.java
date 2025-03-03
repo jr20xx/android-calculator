@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AppCompatDelegate.setDefaultNightMode(sharp.getBoolean("UI_MODE_DARK", false) ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
         binding = DataBindingUtil.setContentView(this, R.layout.main_layout);
         binding.historyLv.setDividerHeight(0);
-        if (Build.VERSION > Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
             binding.buttonsLayout.screen.setShowSoftInputOnFocus(false);
         binding.buttonsLayout.screen.setCursorVisible(false);
         solved = getIntent().getBooleanExtra("solved", false);
