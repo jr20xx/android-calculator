@@ -335,17 +335,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             switch (p1.getItemId())
             {
-                case R.id.copy_operation:
+                case (R.id.copy_operation):
                 {
                     copyToClipboard(null, item.getOperation());
                     return true;
                 }
-                case R.id.copy_result:
+                case (R.id.copy_result):
                 {
                     copyToClipboard(null, item.getResult().replace("=", ""));
                     return true;
                 }
-                case R.id.delete_history_item:
+                case (R.id.delete_history_item):
                 {
                     operations_records_handler.deleteOperation(item.getId());
                     return true;
