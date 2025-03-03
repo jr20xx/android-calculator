@@ -37,8 +37,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.preference:preference:1.2.1'
+    implementation('androidx.appcompat:appcompat:1.4.2') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    implementation('com.google.android.material:material:1.6.1') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    implementation('androidx.preference:preference:1.2.1') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
     implementation 'com.github.jr20xx:JCalc:1.1.1'
 }
