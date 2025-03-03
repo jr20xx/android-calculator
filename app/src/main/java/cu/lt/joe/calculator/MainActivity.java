@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Gravity;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AppCompatDelegate.setDefaultNightMode(sharp.getBoolean("UI_MODE_DARK", false) ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
         binding = DataBindingUtil.setContentView(this, R.layout.main_layout);
         binding.historyLv.setDividerHeight(0);
-        binding.buttonsLayout.screen.setShowSoftInputOnFocus(false);
+        if (Build.VERSION > Build.VERSION_CODES.KITKAT)
+            binding.buttonsLayout.screen.setShowSoftInputOnFocus(false);
         binding.buttonsLayout.screen.setCursorVisible(false);
         solved = getIntent().getBooleanExtra("solved", false);
         operations_records_handler = new HistoryDatabaseHandler(this, () ->
