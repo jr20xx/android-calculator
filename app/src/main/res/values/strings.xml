@@ -12,7 +12,7 @@
 	<string name="send">SEND</string>
 	<string name="sendTit">Share the information about the error</string>
 	<string name="copy">Copy</string>
-	<string name="cutText">Text transfered to clipboard</string>
+	<string name="cutText">Text transferred to clipboard</string>
 	<string name="cut">Cut</string>
     <string name="history_label">History</string>
     <string name="copy_operation_label">Copy operation</string>
