@@ -2,9 +2,6 @@
 <resources>
     <string name="app_name">Calculator</string>
 	<string name="mistcalc">Something went wrong</string>
-	<string name="exit_message">Are you sure that you wanna leave?</string>
-	<string name="ok_text">YES</string>
-	<string name="cancel_text">NO</string>
 	<string name="copied">Text copied to clipboard</string>
 	<string name="more_details">MORE</string>
 	<string name="head_of_report">Type of error:</string>

@@ -2,9 +2,6 @@
 <resources>
     <string name="app_name">Calculadora</string>
 	<string name="mistcalc">Ha ocurrido un error</string>
-	<string name="exit_message">¿Está seguro(a) de que desea salir?</string>
-	<string name="ok_text">ACEPTAR</string>
-	<string name="cancel_text">CANCELAR</string>
 	<string name="copied">Texto copiado al portapapeles</string>
 	<string name="more_details">MÁS</string>
 	<string name="head_of_report">Tipo de error:</string>

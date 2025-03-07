@@ -374,25 +374,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return x.equals("+") || x.equals("-") || x.equals("×") || x.equals("÷") || x.equals("^");
     }
 
-    @Override
-    public void onBackPressed()
-    {
-        final BottomSheetDialog exit = new BottomSheetDialog(this);
-        View inflado = getLayoutInflater().inflate(R.layout.exit, null);
-        exit.setContentView(inflado);
-        exit.setCancelable(false);
-        inflado.findViewById(R.id.I_do_want).setOnClickListener(v ->
-        {
-            exit.dismiss();
-            finishAffinity();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
-        });
-        inflado.findViewById(R.id.I_dont_want).setOnClickListener(v -> exit.dismiss());
-        exit.show();
-    }
-
     private void showDetails(Context context, String type)
     {
         final BottomSheetDialog detError = new BottomSheetDialog(context);
