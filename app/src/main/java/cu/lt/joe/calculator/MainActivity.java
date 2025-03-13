@@ -32,6 +32,7 @@ import cu.lt.joe.calculator.databinding.MainLayoutBinding;
 import cu.lt.joe.calculator.db.HistoryDatabaseHandler;
 import cu.lt.joe.calculator.models.HistoryItem;
 import cu.lt.joe.jcalc.JCalc;
+import cu.lt.joe.jcalc.SolvingMethod;
 import cu.lt.joe.jcalc.exceptions.InfiniteResultException;
 import cu.lt.joe.jcalc.exceptions.NotNumericResultException;
 import cu.lt.joe.jcalc.exceptions.UnbalancedParenthesesException;
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
                     {
-                        String result = JCalc.performMathOperation(text, true);
+                        String result = JCalc.with(SolvingMethod.ShuntingYardAlgorithm).solve(text, true);
                         binding.buttonsLayout.screen.setText(result);
                         binding.buttonsLayout.screen.setSelection(0);
                         operations_records_handler.saveOperation(text, result);
