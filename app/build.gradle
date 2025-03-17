@@ -15,7 +15,14 @@ android {
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
-
+    signingConfigs {
+        release {
+            storeFile file('../keystore.keystore')
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEYSTORE_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
