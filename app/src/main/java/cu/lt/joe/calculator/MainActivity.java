@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 if (isNumber(lastChar + ""))
                 {
-                    String arr[] = text.replace("(", "( ").replace("+", " + ").replace("-", " - ").replace("×", " × ").replace("÷", " ÷ ").replace("%", " % ").replace(")", " )").replace("n", "-").trim().split(" ");
+                    String arr[] = text.replace("(", "( ").replace("+", " + ").replace("-", " - ").replace("×", " × ").replace("÷", " ÷ ").replace("^", " ^ ").replace(")", " )").replace("n", "-").trim().split(" ");
                     if (!arr[arr.length - 1].contains("."))
                         binding.buttonsLayout.screen.setText(String.format("%s.", binding.buttonsLayout.screen.getText()));
                 }
