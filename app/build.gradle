@@ -53,5 +53,5 @@ dependencies {
     implementation('androidx.preference:preference:1.2.1') {
         exclude group: 'org.jetbrains.kotlin'
     }
-    implementation 'com.github.jr20xx:JCalc:2.0.3'
+    implementation 'com.github.jr20xx:JCalc:2.0.4'
 }
