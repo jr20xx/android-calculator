@@ -40,6 +40,11 @@ android {
     }
     dataBinding.enabled = true
     viewBinding.enabled = true
+    packagingOptions {
+        resources {
+            excludes += ['assets/**', 'kotlin/**', 'DebugProbesKt.bin', 'META-INF/com/**', 'META-INF/*.version', 'META-INF/*.textproto']
+        }
+    }
 }
 
 dependencies {
