@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'cu.lt.joe.calculator'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "cu.lt.joe.calculator"
         minSdk 19
-        targetSdk 34
+        targetSdk 36
         versionCode 1
         versionName "1.0"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -44,14 +44,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation('androidx.appcompat:appcompat:1.4.2') {
-        exclude group: 'org.jetbrains.kotlin'
-    }
-    implementation('com.google.android.material:material:1.6.1') {
-        exclude group: 'org.jetbrains.kotlin'
-    }
-    implementation('androidx.preference:preference:1.2.1') {
-        exclude group: 'org.jetbrains.kotlin'
-    }
+    implementation('androidx.appcompat:appcompat:1.6.1')
+    implementation('com.google.android.material:material:1.10.0')
+    implementation('androidx.preference:preference:1.2.1')
     implementation 'com.github.jr20xx:JCalc:2.0.5'
 }
