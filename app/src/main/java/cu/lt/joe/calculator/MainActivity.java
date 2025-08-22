@@ -31,6 +31,7 @@ import cu.lt.joe.calculator.adapters.OperationsHistoryAdapter;
 import cu.lt.joe.calculator.databinding.MainLayoutBinding;
 import cu.lt.joe.calculator.db.HistoryDatabaseHandler;
 import cu.lt.joe.calculator.models.HistoryItem;
+import cu.lt.joe.calculator.models.SavedState;
 import cu.lt.joe.jcalc.JCalc;
 import cu.lt.joe.jcalc.exceptions.InfiniteResultException;
 import cu.lt.joe.jcalc.exceptions.NotNumericResultException;
@@ -38,6 +39,7 @@ import cu.lt.joe.jcalc.exceptions.UnbalancedParenthesesException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener
 {
+    private final String SAVED_STATUS_TAG = "SAVED_STATUS";
     private MainLayoutBinding binding;
     private boolean solved;
     private HistoryDatabaseHandler operations_records_handler;
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH)
             binding.buttonsLayout.screen.setShowSoftInputOnFocus(false);
         binding.buttonsLayout.screen.setCursorVisible(false);
-        solved = getIntent().getBooleanExtra("solved", false);
         operations_records_handler = new HistoryDatabaseHandler(this, () ->
         {
             binding.historyLv.setAdapter(new OperationsHistoryAdapter(MainActivity.this, operations_records_handler.getOperationsHistory()));
@@ -111,6 +112,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.buttonsLayout.delete.setOnLongClickListener(this);
         binding.buttonsLayout.screen.setOnLongClickListener(this);
         binding.buttonsLayout.setHandlerActivity(this);
+
+        if (getIntent().hasExtra(SAVED_STATUS_TAG))
+        {
+            SavedState recoveredStatus = getIntent().getParcelableExtra(SAVED_STATUS_TAG);
+            binding.buttonsLayout.screen.setText(recoveredStatus.getSavedScreenContent());
+            solved = recoveredStatus.getSavedSolvedStatus();
+        }
     }
 
     public void onNumberClick(View button)
@@ -271,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (view.equals(binding.buttonsLayout.toggleDayNightMode))
         {
             editor.putBoolean("UI_MODE_DARK", !sharp.getBoolean("UI_MODE_DARK", false)).commit();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).putExtra("solved", solved).putExtra("screen_content", binding.buttonsLayout.screen.getText().toString()));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP).putExtra(SAVED_STATUS_TAG, new SavedState(binding.buttonsLayout.screen.getText().toString(), solved)));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
