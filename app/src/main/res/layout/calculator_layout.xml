@@ -29,7 +29,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/toggle_dayNight_mode"
-                    style="?android:attr/buttonBarButtonStyle"
+                    style="?attr/actionButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -40,7 +40,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/toggle_history_drawer"
-                    style="?android:attr/buttonBarButtonStyle"
+                    style="?attr/actionButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -264,6 +264,7 @@
 
                 <ImageButton
                     android:id="@+id/delete"
+                    style="?attr/buttonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
