@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,13 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDestroyActionMode(ActionMode p1)
             {
             }
-        });
-
-        binding.buttonsLayout.screen.setOnKeyListener((v, keyCode, event) ->
-        {
-            if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
-                return false;
-            return true;
         });
 
         binding.historyLv.setOnItemClickListener((p1, p2, p3, p4) ->
