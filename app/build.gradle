@@ -3,17 +3,17 @@ plugins {
 }
 
 android {
-    namespace 'cu.lt.joe.calculator'
-    compileSdk 36
+    namespace = 'cu.lt.joe.calculator'
+    compileSdk = 36
 
     defaultConfig {
         applicationId "cu.lt.joe.calculator"
-        minSdk 19
-        targetSdk 36
+        minSdk = 19
+        targetSdk = 36
         versionCode 1
         versionName "1.0"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
+        multiDexEnabled = true
     }
     signingConfigs {
         release {
@@ -26,7 +26,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
+            shrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,10 +34,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    dependenciesInfo {
-        includeInApk false
-        includeInBundle false
-    }
+    dependenciesInfo.includeInApk = false
+    dependenciesInfo.includeInBundle = false
     dataBinding.enabled = true
     viewBinding.enabled = true
     packagingOptions {
