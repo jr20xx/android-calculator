@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.PopupMenu;
@@ -24,7 +23,10 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.NoSuchElementException;
 import cu.lt.joe.calculator.adapters.OperationsHistoryAdapter;
 import cu.lt.joe.calculator.databinding.MainLayoutBinding;
@@ -34,6 +36,7 @@ import cu.lt.joe.calculator.models.SavedState;
 import cu.lt.joe.jcalc.JCalc;
 import cu.lt.joe.jcalc.exceptions.InfiniteResultException;
 import cu.lt.joe.jcalc.exceptions.NotNumericResultException;
+import cu.lt.joe.jcalc.exceptions.SyntaxErrorException;
 import cu.lt.joe.jcalc.exceptions.UnbalancedParenthesesException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener
@@ -109,7 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try
                     {
                         if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
-                            binding.buttonsLayout.resultScreen.setText(JCalc.solveMathExpression(text, true));
+                        {
+                            String result = JCalc.solveMathExpression(text, true);
+                            if (!result.equals(text))
+                                binding.buttonsLayout.resultScreen.setText(result);
+                        }
                     }
                     catch (NotNumericResultException e)
                     {
@@ -316,14 +323,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.setContentView(edits);
                 edits.findViewById(R.id.copy_lay).setOnClickListener(view ->
                 {
-                    copyToClipboard(null, binding.buttonsLayout.screen.getText().toString());
+                    copyToClipboard(binding.buttonsLayout.screen.getText().toString());
                     dialog.dismiss();
                     Snackbar.make(binding.buttonsLayout.screen, R.string.copied, Snackbar.LENGTH_SHORT).show();
                 });
                 edits.findViewById(R.id.cut_lay).setOnClickListener(view ->
                 {
                     solved = false;
-                    copyToClipboard(null, binding.buttonsLayout.screen.getText().toString());
+                    copyToClipboard(binding.buttonsLayout.screen.getText().toString());
                     dialog.dismiss();
                     binding.buttonsLayout.screen.setText("");
                     Snackbar.make(binding.buttonsLayout.screen, R.string.cutText, Snackbar.LENGTH_SHORT).show();
@@ -335,19 +342,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-    private boolean copyToClipboard(@Nullable String title, @NonNull String description)
+    private void copyToClipboard(@NonNull String content)
     {
         try
         {
-            ClipboardManager cm = (ClipboardManager) MainActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData cd = ClipData.newPlainText(title, description);
-            cm.setPrimaryClip(cd);
-            return true;
+            ((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE))
+                    .setPrimaryClip(ClipData.newPlainText(null, content));
         }
         catch (Exception ignored)
         {
         }
-        return false;
     }
 
     private void showHistoryItemPopupMenu(final HistoryItem item, View view)
@@ -360,12 +364,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 case R.id.copy_operation:
                 {
-                    copyToClipboard(null, item.getOperation());
+                    copyToClipboard(item.getOperation());
                     return true;
                 }
                 case R.id.copy_result:
                 {
-                    copyToClipboard(null, item.getResult().replace("=", ""));
+                    copyToClipboard(item.getResult().replace("=", ""));
                     return true;
                 }
                 case R.id.delete_history_item:
