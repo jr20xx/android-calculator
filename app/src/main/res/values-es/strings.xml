@@ -1,21 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Calculadora</string>
-	<string name="mistcalc">Ha ocurrido un error</string>
+	<string name="app_name">Calculadora</string>
+	<string name="generic_error">Algo salió mal</string>
 	<string name="copied">Texto copiado al portapapeles</string>
-	<string name="more_details">MÁS</string>
-	<string name="head_of_report">Tipo de error:</string>
-	<string name="infinite_error">El error ha sido generado porque el algoritmo arroja un resultado inifinito</string>
-	<string name="missbalanced">El error ha sido generado porque los paréntesis no están emparejados</string>
-	<string name="genericE">El error ha sido generado porque ha ocurrido la siguiente excepción</string>
-	<string name="nan_error">El error ha sido generado porque el algoritmo arroja un resultado que no es un número</string>
-	<string name="send">ENVIAR</string>
-	<string name="sendTit">Compartir la información del error</string>
-	<string name="copy">Copiar</string>
+	<string name="infinite_error">Infinito</string>
+	<string name="nan_error">Valor no numérico</string>
+	<string name="malformed_expression">Expresión malformada</string>
 	<string name="cutText">Texto transferido al portapapeles</string>
 	<string name="cut">Cortar</string>
-    <string name="history_label">Historial</string>
-    <string name="copy_operation_label">Copiar operación</string>
-    <string name="copy_result_label">Copiar resultado</string>
-    <string name="delete_history_item_label">Eliminar</string>
+	<string name="history_label">Historial</string>
+	<string name="copy_operation_label">Copiar operación</string>
+	<string name="copy_result_label">Copiar resultado</string>
+	<string name="delete_history_item_label">Eliminar</string>
 </resources>

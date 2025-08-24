@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +25,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.NoSuchElementException;
 import cu.lt.joe.calculator.adapters.OperationsHistoryAdapter;
 import cu.lt.joe.calculator.databinding.MainLayoutBinding;
@@ -103,10 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try
                     {
                         if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
-                        {
-                            String result = JCalc.solveMathExpression(text, true);
-                            binding.buttonsLayout.resultScreen.setText(result);
-                        }
+                            binding.buttonsLayout.resultScreen.setText(JCalc.solveMathExpression(text, true));
                     }
                     catch (NotNumericResultException e)
                     {
@@ -118,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     catch (UnbalancedParenthesesException | NoSuchElementException x)
                     {
-                        binding.buttonsLayout.screen.setText(null);
+                        binding.buttonsLayout.resultScreen.setText(R.string.malformed_expression);
                     }
                     catch (Exception e)
                     {
-                        binding.buttonsLayout.resultScreen.setText(R.string.genericE);
+                        binding.buttonsLayout.resultScreen.setText(R.string.generic_error);
                     }
                 }
             }
@@ -267,45 +261,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (view.equals(binding.buttonsLayout.equal))
         {
-            if (!text.isEmpty())
+            String result = binding.buttonsLayout.resultScreen.getText().toString();
+            if (!result.isEmpty())
             {
-                try
+                if (result.equals(getString(R.string.infinite_error)))
+                    Snackbar.make(binding.getRoot(), "Infinite result", Snackbar.LENGTH_SHORT).show();
+                else if (result.equals(getString(R.string.nan_error)))
+                    Snackbar.make(binding.getRoot(), "Not numeric result", Snackbar.LENGTH_SHORT).show();
+                else if (result.equals(getString(R.string.malformed_expression)))
+                    Snackbar.make(binding.getRoot(), "Expression malformed", Snackbar.LENGTH_SHORT).show();
+                else if (result.equals(getString(R.string.generic_error)))
+                    Snackbar.make(binding.getRoot(), "Algo salió mal...", Snackbar.LENGTH_SHORT).show();
+                else
                 {
-                    if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
-                    {
-                        String result = JCalc.solveMathExpression(text, true);
-                        binding.buttonsLayout.screen.setText(result);
-                        binding.buttonsLayout.screen.setSelection(0);
-                        operations_records_handler.saveOperation(text, result);
-                    }
-                }
-                catch (NotNumericResultException e)
-                {
-                    binding.buttonsLayout.screen.setText("");
-                    Snackbar.make(binding.buttonsLayout.screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "NULO")).show();
-                }
-                catch (InfiniteResultException e)
-                {
-                    binding.buttonsLayout.screen.setText("");
-                    Snackbar.make(binding.buttonsLayout.screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "INF")).show();
-                }
-                catch (UnbalancedParenthesesException x)
-                {
-                    binding.buttonsLayout.screen.setText("");
-                    Snackbar.make(binding.buttonsLayout.screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, "PIE")).show();
-                }
-                catch (Exception e)
-                {
-                    Throwable t = new Throwable(e);
-                    StringWriter result = new StringWriter();
-                    PrintWriter printer = new PrintWriter(result);
-                    while (t != null)
-                    {
-                        t.printStackTrace(printer);
-                        t = t.getCause();
-                    }
-                    final String exception = result.toString();
-                    Snackbar.make(binding.buttonsLayout.screen, R.string.mistcalc, Snackbar.LENGTH_LONG).setAction(R.string.more_details, v -> showDetails(MainActivity.this, exception)).show();
+                    binding.buttonsLayout.screen.setText(result);
+                    binding.buttonsLayout.screen.setSelection(0);
+                    operations_records_handler.saveOperation(text, result);
                 }
             }
         }
@@ -407,13 +378,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu.show();
     }
 
+    @NonNull
     private Boolean isNumber(String x)
     {
         for (int i = 0; i <= 9; i++)
-        {
-            if (Integer.toString(i).equals(x))
-                return true;
-        }
+            if (Integer.toString(i).equals(x)) return true;
         return false;
     }
 
@@ -421,46 +390,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Boolean isOperator(String x)
     {
         return x.equals("+") || x.equals("-") || x.equals("×") || x.equals("÷") || x.equals("^");
-    }
-
-    private void showDetails(Context context, String type)
-    {
-        final BottomSheetDialog detError = new BottomSheetDialog(context);
-        View inflado = getLayoutInflater().inflate(R.layout.error_dialog, null);
-        detError.setContentView(inflado);
-        final TextView head = inflado.findViewById(R.id.title);
-        final Button send = inflado.findViewById(R.id.SEND);
-        final TextView errorT = inflado.findViewById(R.id.errorText);
-        send.setVisibility(View.GONE);
-        switch (type)
-        {
-            case "PIE":
-            {
-                errorT.setText(R.string.missbalanced);
-                break;
-            }
-            case "NULO":
-            {
-                errorT.setText(R.string.nan_error);
-                break;
-            }
-            case "INF":
-            {
-                errorT.setText(R.string.infinite_error);
-                break;
-            }
-            default:
-            {
-                errorT.setText(R.string.genericE + ": " + type);
-                send.setVisibility(View.VISIBLE);
-                break;
-            }
-        }
-        send.setOnClickListener(v ->
-        {
-            detError.dismiss();
-            startActivity(Intent.createChooser(new Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, errorT.getText().toString()).putExtra(Intent.EXTRA_SUBJECT, head.getText().toString()), getResources().getString(R.string.sendTit)));
-        });
-        detError.show();
     }
 }
