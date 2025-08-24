@@ -25,8 +25,6 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.NoSuchElementException;
 import cu.lt.joe.calculator.adapters.OperationsHistoryAdapter;
 import cu.lt.joe.calculator.databinding.MainLayoutBinding;
@@ -126,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     {
                         binding.buttonsLayout.resultScreen.setText(R.string.infinite_error);
                     }
-                    catch (UnbalancedParenthesesException | NoSuchElementException x)
+                    catch (UnbalancedParenthesesException | SyntaxErrorException | NoSuchElementException e)
                     {
                         binding.buttonsLayout.resultScreen.setText(R.string.malformed_expression);
                     }
