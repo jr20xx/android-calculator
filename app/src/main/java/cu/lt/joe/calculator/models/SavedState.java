@@ -20,18 +20,20 @@ public class SavedState implements Parcelable
             return new SavedState[size];
         }
     };
-    private final String savedScreenContent;
+    private final String savedScreenContent, savedResult;
     private final boolean savedSolvedStatus;
 
-    public SavedState(String savedScreenContent, boolean savedSolvedStatus)
+    public SavedState(String savedScreenContent, String savedResult, boolean savedSolvedStatus)
     {
         this.savedScreenContent = savedScreenContent;
+        this.savedResult = savedResult;
         this.savedSolvedStatus = savedSolvedStatus;
     }
 
     protected SavedState(@NonNull Parcel in)
     {
         savedScreenContent = in.readString();
+        savedResult = in.readString();
         savedSolvedStatus = in.readInt() != 0;
     }
 
@@ -45,6 +47,7 @@ public class SavedState implements Parcelable
     public void writeToParcel(@NonNull Parcel parcel, int i)
     {
         parcel.writeString(savedScreenContent);
+        parcel.writeString(savedResult);
         parcel.writeInt(savedSolvedStatus ? 1 : 0);
     }
 
@@ -56,5 +59,10 @@ public class SavedState implements Parcelable
     public boolean getSavedSolvedStatus()
     {
         return savedSolvedStatus;
+    }
+
+    public String getSavedResult()
+    {
+        return savedResult;
     }
 }

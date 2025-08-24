@@ -54,6 +54,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor = sharp.edit();
         AppCompatDelegate.setDefaultNightMode(sharp.getBoolean("UI_MODE_DARK", false) ? AppCompatDelegate.MODE_NIGHT_NO : AppCompatDelegate.MODE_NIGHT_YES);
         binding = DataBindingUtil.setContentView(this, R.layout.main_layout);
+
+        if (getIntent().hasExtra(SAVED_STATUS_TAG))
+        {
+            SavedState recoveredStatus = getIntent().getParcelableExtra(SAVED_STATUS_TAG);
+            binding.buttonsLayout.screen.setText(recoveredStatus.getSavedScreenContent());
+            binding.buttonsLayout.resultScreen.setText(recoveredStatus.getSavedResult());
+            solved = recoveredStatus.getSavedSolvedStatus();
+        }
+
         binding.historyLv.setDividerHeight(0);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH)
             binding.buttonsLayout.screen.setShowSoftInputOnFocus(false);
@@ -147,13 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         binding.buttonsLayout.delete.setOnLongClickListener(this);
         binding.buttonsLayout.screen.setOnLongClickListener(this);
         binding.buttonsLayout.setHandlerActivity(this);
-
-        if (getIntent().hasExtra(SAVED_STATUS_TAG))
-        {
-            SavedState recoveredStatus = getIntent().getParcelableExtra(SAVED_STATUS_TAG);
-            binding.buttonsLayout.screen.setText(recoveredStatus.getSavedScreenContent());
-            solved = recoveredStatus.getSavedSolvedStatus();
-        }
     }
 
     public void onNumberClick(View button)
@@ -291,7 +293,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (view.equals(binding.buttonsLayout.toggleDayNightMode))
         {
             editor.putBoolean("UI_MODE_DARK", !sharp.getBoolean("UI_MODE_DARK", false)).commit();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP).putExtra(SAVED_STATUS_TAG, new SavedState(binding.buttonsLayout.screen.getText().toString(), solved)));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .putExtra(SAVED_STATUS_TAG, new SavedState(binding.buttonsLayout.screen.getText().toString(), binding.buttonsLayout.resultScreen.getText().toString(), solved)));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
