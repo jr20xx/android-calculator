@@ -1,6 +1,8 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
 
     <data>
 
@@ -54,7 +56,8 @@
             <EditText
                 android:id="@+id/screen"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.0"
                 android:background="#00000000"
                 android:cursorVisible="false"
                 android:gravity="bottom|right"
@@ -68,25 +71,33 @@
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/result_screen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom|right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="20sp" />
+
         </LinearLayout>
 
-        <LinearLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:layout_weight="1.0">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1.0"
-                android:orientation="vertical">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0">
 
                 <Button
                     android:id="@+id/openParentheses"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:background="@drawable/operators"
                     android:onClick="@{handlerActivity::onClick}"
@@ -95,57 +106,9 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/seven"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/numbers"
-                    android:onClick="@{handlerActivity::onNumberClick}"
-                    android:text="7"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/four"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/numbers"
-                    android:onClick="@{handlerActivity::onNumberClick}"
-                    android:text="4"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/one"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/numbers"
-                    android:onClick="@{handlerActivity::onNumberClick}"
-                    android:text="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/zero"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/numbers"
-                    android:onClick="@{handlerActivity::onNumberClick}"
-                    android:text="0"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1.0"
-                android:orientation="vertical">
-
-                <Button
                     android:id="@+id/closeParentheses"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:background="@drawable/operators"
                     android:onClick="@{handlerActivity::onClick}"
@@ -154,58 +117,9 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/eight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/numbers"
-                    android:onClick="@{handlerActivity::onNumberClick}"
-                    android:text="8"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/five"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/numbers"
-                    android:onClick="@{handlerActivity::onNumberClick}"
-                    android:text="5"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/two"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/numbers"
-                    android:onClick="@{handlerActivity::onNumberClick}"
-                    android:text="2"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/comma"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/operators"
-                    android:onClick="@{handlerActivity::onClick}"
-                    android:text="."
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1.0"
-                android:orientation="vertical">
-
-                <Button
                     android:id="@+id/exponentiation"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:background="@drawable/basic"
                     android:onClick="@{handlerActivity::onOperatorClick}"
@@ -213,10 +127,47 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textStyle="bold" />
 
+                <ImageButton
+                    android:id="@+id/delete"
+                    style="?attr/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/back"
+                    android:onClick="@{handlerActivity::onClick}"
+                    android:onLongClick="@{handlerActivity::onLongClick}"
+                    app:srcCompat="@drawable/ic_backspace" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0">
+
+                <Button
+                    android:id="@+id/seven"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="7"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Button
+                    android:id="@+id/eight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="8"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
                 <Button
                     android:id="@+id/nine"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:background="@drawable/numbers"
                     android:onClick="@{handlerActivity::onNumberClick}"
@@ -224,9 +175,46 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Button
+                    android:id="@+id/divide"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/basic"
+                    android:onClick="@{handlerActivity::onOperatorClick}"
+                    android:text="÷"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0">
+
+                <Button
+                    android:id="@+id/four"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="4"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Button
+                    android:id="@+id/five"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="5"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Button
                     android:id="@+id/six"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:background="@drawable/numbers"
                     android:onClick="@{handlerActivity::onNumberClick}"
@@ -234,9 +222,46 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Button
+                    android:id="@+id/multiply"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/basic"
+                    android:onClick="@{handlerActivity::onOperatorClick}"
+                    android:text="×"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0">
+
+                <Button
+                    android:id="@+id/one"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Button
+                    android:id="@+id/two"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="2"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Button
                     android:id="@+id/three"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:background="@drawable/numbers"
                     android:onClick="@{handlerActivity::onNumberClick}"
@@ -244,80 +269,65 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Button
-                    android:id="@+id/equal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/equals"
-                    android:onClick="@{handlerActivity::onClick}"
-                    android:text="="
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1.0"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/delete"
-                    style="?attr/buttonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/back"
-                    android:onClick="@{handlerActivity::onClick}"
-                    android:onLongClick="@{handlerActivity::onLongClick}"
-                    app:srcCompat="@drawable/ic_backspace" />
-
-                <Button
-                    android:id="@+id/divide"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/basic"
-                    android:onClick="@{handlerActivity::onOperatorClick}"
-                    android:text="÷"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/multiply"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.0"
-                    android:background="@drawable/basic"
-                    android:onClick="@{handlerActivity::onOperatorClick}"
-                    android:text="×"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textStyle="bold" />
-
-                <Button
                     android:id="@+id/subtract"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:background="@drawable/basic"
                     android:onClick="@{handlerActivity::onOperatorClick}"
                     android:text="-"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0">
+
+                <Button
+                    android:id="@+id/zero"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/numbers"
+                    android:onClick="@{handlerActivity::onNumberClick}"
+                    android:text="0"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Button
+                    android:id="@+id/comma"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/operators"
+                    android:onClick="@{handlerActivity::onClick}"
+                    android:text="."
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/equal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/equals"
+                    android:onClick="@{handlerActivity::onClick}"
+                    android:text="="
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/add"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1.0"
                     android:background="@drawable/basic"
                     android:onClick="@{handlerActivity::onOperatorClick}"
                     android:text="+"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textStyle="bold" />
-
-            </LinearLayout>
-        </LinearLayout>
+            </TableRow>
+        </TableLayout>
     </LinearLayout>
 </layout>

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.Menu;
@@ -26,6 +28,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.NoSuchElementException;
 import cu.lt.joe.calculator.adapters.OperationsHistoryAdapter;
 import cu.lt.joe.calculator.databinding.MainLayoutBinding;
 import cu.lt.joe.calculator.db.HistoryDatabaseHandler;
@@ -87,6 +90,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDestroyActionMode(ActionMode p1)
             {
+            }
+        });
+        binding.buttonsLayout.screen.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                String text = editable.toString();
+                if (!text.isEmpty())
+                {
+                    try
+                    {
+                        if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
+                        {
+                            String result = JCalc.solveMathExpression(text, true);
+                            binding.buttonsLayout.resultScreen.setText(result);
+                        }
+                    }
+                    catch (NotNumericResultException e)
+                    {
+                        binding.buttonsLayout.resultScreen.setText(R.string.nan_error);
+                    }
+                    catch (InfiniteResultException e)
+                    {
+                        binding.buttonsLayout.resultScreen.setText(R.string.infinite_error);
+                    }
+                    catch (UnbalancedParenthesesException | NoSuchElementException x)
+                    {
+                        binding.buttonsLayout.screen.setText(null);
+                    }
+                    catch (Exception e)
+                    {
+                        binding.buttonsLayout.resultScreen.setText(R.string.genericE);
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                binding.buttonsLayout.resultScreen.setText(null);
             }
         });
 
