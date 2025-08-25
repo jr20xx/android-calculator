@@ -23,7 +23,6 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.preference.PreferenceManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.NoSuchElementException;
 import cu.lt.joe.calculator.adapters.OperationsHistoryAdapter;
@@ -222,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 if (isNumber(lastChar + ""))
                 {
-                    String arr[] = text.replace("(", "( ").replace("+", " + ").replace("-", " - ").replace("×", " × ").replace("÷", " ÷ ").replace("^", " ^ ").replace(")", " )").replace("n", "-").trim().split(" ");
+                    String[] arr = text.replace("(", "( ").replace("+", " + ").replace("-", " - ").replace("×", " × ").replace("÷", " ÷ ").replace("^", " ^ ").replace(")", " )").replace("n", "-").trim().split(" ");
                     if (!arr[arr.length - 1].contains("."))
                         binding.buttonsLayout.screen.setText(String.format("%s.", binding.buttonsLayout.screen.getText()));
                 }
