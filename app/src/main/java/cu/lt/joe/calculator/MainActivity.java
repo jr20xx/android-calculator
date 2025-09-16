@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     {
                         if (text.contains("+") || text.contains("-") || text.contains("×") || text.contains("÷") || text.contains("^"))
                         {
-                            String result = JCalc.solveMathExpression(text, true);
+                            String result = JCalc.solveMathExpression(text, null);
                             if (!result.equals(text))
                                 binding.buttonsLayout.resultScreen.setText(result);
                         }
